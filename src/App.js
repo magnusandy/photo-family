@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Switch, Route} from 'react-router-dom';
+import Template from './Template';
+import AddressBook from './AddressBook';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload baby.
-        </p>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Switch>
+                <Route exact path='/' component={Template}/>
+                <Route path='/address-book' component={AddressBook}/>
+            </Switch>
+        );
+    }
 }
 
 export default App;

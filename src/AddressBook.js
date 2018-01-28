@@ -7,15 +7,25 @@ class AddressBook extends Component {
         this.state = { messages: [] }; // <- set up react state
     }
 
-    subscribeAction(snapshot) {
+    subscribeAction = (snapshot) => {
         /* Update React state when message is added at Firebase Database */
         let message = { text: snapshot.val(), id: snapshot.key };
         this.setState({ messages: [message].concat(this.state.messages) });
     }
 
+    addAllMessages(snapshotValue) {
+        let messages = [];
+        Object.keys(snapshotValue).forEach(key => {
+            let message = { text: snapshotValue[key], id: key };
+            messages = [message].concat(messages);
+        });
+        this.setState({ messages: messages });
+    }
+
     componentWillMount(){
-        MessageRepository.subscribeToMessages(4)
-            .on(MessageRepository.CHILD_ADDED, snaphshot => this.subscribeAction(snaphshot));
+        MessageRepository.subscribeToMessages(4, this.subscribeAction);
+        //MessageRepository.fetchAllMessages(100)
+        //    .then(snapshot => this.addAllMessages(snapshot.val()));
     }
 
     addMessage(e){

@@ -11,21 +11,19 @@ class AddressBook extends Component {
         /* Update React state when message is added at Firebase Database */
         let message = { text: snapshot.val(), id: snapshot.key };
         this.setState({ messages: [message].concat(this.state.messages) });
-    }
+    };
 
-    addAllMessages(snapshotValue) {
-        let messages = [];
-        Object.keys(snapshotValue).forEach(key => {
-            let message = { text: snapshotValue[key], id: key };
-            messages = [message].concat(messages);
-        });
-        this.setState({ messages: messages });
-    }
+    addAllMessages = (messageList) => {
+       this.setState({messages: messageList})
+    };
 
     componentWillMount(){
-        MessageRepository.subscribeToMessages(4, this.subscribeAction);
-        //MessageRepository.fetchAllMessages(100)
-        //    .then(snapshot => this.addAllMessages(snapshot.val()));
+        //MessageRepository.subscribeToMessages(4, this.subscribeAction);
+        MessageRepository.fetchAllMessages(100)
+            .then(messageList => {
+                console.log(messageList);
+                this.addAllMessages(messageList)
+            });
     }
 
     addMessage(e){
@@ -41,7 +39,7 @@ class AddressBook extends Component {
                 <input type="submit"/>
                 <ul>
                     { /* Render the list of messages */
-                        this.state.messages.map( message => <li key={message.id}>{message.text}</li> )
+                        this.state.messages.map( message => <li key={message.getId()}>{message.getText()}</li> )
                     }
                 </ul>
             </form>

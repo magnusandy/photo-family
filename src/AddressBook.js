@@ -18,12 +18,7 @@ class AddressBook extends Component {
     };
 
     componentWillMount(){
-        //MessageRepository.subscribeToMessages(4, this.subscribeAction);
-        MessageRepository.fetchAllMessages(100)
-            .then(messageList => {
-                console.log(messageList);
-                this.addAllMessages(messageList)
-            });
+        MessageRepository.subscribeToMessages(4, this.subscribeAction);
     }
 
     addMessage(e){

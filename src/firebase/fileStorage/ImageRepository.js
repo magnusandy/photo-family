@@ -7,7 +7,6 @@ class ImageRepository extends Component {
     static MAX_FILE_SIZE = 5242880; //5MB
     static ACCEPTED_FILE_TYPES = "image/jpeg, image/png";
 
-
     static saveImage() {
         var storageRef = fire.storage().ref();
         var ref = storageRef.child("image1.jpg");

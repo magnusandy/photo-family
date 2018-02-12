@@ -14,13 +14,13 @@ class ImageUpload extends Component {
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
-        console.log(acceptedFiles);
         var errorMessage = null;
         if (rejectedFiles.length > 0) {
             errorMessage = "Not all images could be added to the page";
         }
+        ;
         this.setState({
-            files: acceptedFiles,
+            files: acceptedFiles.concat(this.state.files),
             errorMessage: errorMessage
         })
     };

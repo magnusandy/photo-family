@@ -1,6 +1,7 @@
 // @flow
 import fire from '../../fire';
 import Message from './Message';
+import type { DataSnapshot } from 'firebase/database';
 
 class MessageRepository {
     static MESSAGE_TABLE = 'messages';
@@ -8,8 +9,11 @@ class MessageRepository {
     static VALUE = 'value';
 
     mapSnapshotToMessage = (snapshot: DataSnapshot): Message => {
-        console.log(snapshot);
-        return new Message(snapshot.key, snapshot.val());
+        if (snapshot.key) {
+            return new Message(snapshot.key, snapshot.val());
+        } else {
+            throw new Error("WARNING Data snapshot does not have a key.");
+        }
     };
 
     subscribeToMessages(limitToLast: number, callback: (message: Message) => void): void {

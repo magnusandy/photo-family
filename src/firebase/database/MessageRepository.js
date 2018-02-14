@@ -1,26 +1,31 @@
-import { Component } from 'react';
+// @flow
 import fire from '../../fire';
 import Message from './Message';
 
-class MessageRepository extends Component {
+class MessageRepository {
     static MESSAGE_TABLE = 'messages';
     static CHILD_ADDED = 'child_added';
     static VALUE = 'value';
 
-    static subscribeToMessages(limitToLast, callback) {
+    mapSnapshotToMessage = (snapshot: DataSnapshot): Message => {
+        console.log(snapshot);
+        return new Message(snapshot.key, snapshot.val());
+    };
+
+    subscribeToMessages(limitToLast: number, callback: (message: Message) => void): void {
         return fire.database()
             .ref(MessageRepository.MESSAGE_TABLE)
             .orderByKey()
             .limitToLast(limitToLast)
-            .on(MessageRepository.CHILD_ADDED, snapshot => callback(snapshot));
+            .on(MessageRepository.CHILD_ADDED, snapshot => callback(this.mapSnapshotToMessage(snapshot)));
     }
 
-    static fetchAllMessages(limit) {
+    fetchAllMessages(limit: number): Array<Message> {
         return fire.database()
             .ref(MessageRepository.MESSAGE_TABLE)
             .limitToLast(limit)
             .once(MessageRepository.VALUE)
-            .then( snapshot => {
+            .then(snapshot => {
                 let messagesArray = [];
                 Object.keys(snapshot.val()).forEach(key => {
                     let message = new Message(key, snapshot.val()[key]);
@@ -30,8 +35,8 @@ class MessageRepository extends Component {
             })
     }
 
-    static saveMessage(message) {
-        fire.database().ref(MessageRepository.MESSAGE_TABLE).push( message );
+    saveMessage(message: string): void {
+        fire.database().ref(MessageRepository.MESSAGE_TABLE).push(message);
     }
 }
 

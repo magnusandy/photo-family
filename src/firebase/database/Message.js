@@ -1,12 +1,15 @@
-
+// @flow
 class Message {
-    constructor(id, text) {
+    id: string;
+    text: string;
+
+    constructor(id: string, text: string) {
         this.id = id;
         this.text = text;
     }
 
-    getId = () => this.id;
-    getText = () => this.text;
+    getId = (): string => this.id;
+    getText = ():string => this.text;
 }
 
 export default Message;

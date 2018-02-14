@@ -1,40 +1,56 @@
-import React, { Component } from 'react';
+// @flow
+import React, {Component} from 'react';
 import MessageRepository from './firebase/database/MessageRepository';
+import Message from "./firebase/database/Message";
 
-class AddressBook extends Component {
-    constructor(props) {
+type Props = {};
+type State = { messages: Array<Message> };
+
+class AddressBook extends Component<Props, State> {
+    messageRepository: MessageRepository;
+    state: State;
+    inputEl: ?
+        HTMLInputElement;
+
+    constructor(props: Props): void {
         super(props);
-        this.state = { messages: [] }; // <- set up react state
+        this.messageRepository = new MessageRepository();
+        this.state = {messages: []};
     }
 
-    subscribeAction = (snapshot) => {
+    subscribeAction = (message: Message): void => {
         /* Update React state when message is added at Firebase Database */
-        let message = { text: snapshot.val(), id: snapshot.key };
-        this.setState({ messages: [message].concat(this.state.messages) });
+        console.log(message);
+        this.setState({messages: [message].concat(this.state.messages)});
     };
 
-    addAllMessages = (messageList) => {
-       this.setState({messages: messageList})
+    addAllMessages = (messageList: Array<Message>): void => {
+        this.setState({messages: messageList})
     };
 
-    componentWillMount(){
-        MessageRepository.subscribeToMessages(4, this.subscribeAction);
+    componentWillMount(): void {
+        this.messageRepository.subscribeToMessages(5, this.subscribeAction);
     }
 
-    addMessage(e){
+    addMessage(e: Event): void {
         e.preventDefault();
-        MessageRepository.saveMessage( this.inputEl.value );
-        this.inputEl.value = ''; // <- clear the input
+        console.log(this.inputEl);
+        if (this.inputEl) {
+            let messageToSave = this.inputEl.value;
+            this.inputEl.value = '';
+            this.messageRepository.saveMessage(messageToSave);
+        }
     }
 
     render() {
+        console.log(this.state.messages);
         return (
             <form onSubmit={this.addMessage.bind(this)}>
-                <input type="text" ref={ el => this.inputEl = el }/>
+                <input type="text" ref={el => this.inputEl = el}/>
                 <input type="submit"/>
                 <ul>
-                    { /* Render the list of messages */
-                        this.state.messages.map( message => <li key={message.getId()}>{message.getText()}</li> )
+                    {/* Render the list of messages */
+                        this.state.messages.map(message => <li key={message.getId()}>{message.getText()}</li>)
                     }
                 </ul>
             </form>

@@ -14,11 +14,11 @@ class ImageUpload extends Component {
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
-        var errorMessage = null;
+        let errorMessage = null;
         if (rejectedFiles.length > 0) {
             errorMessage = "Not all images could be added to the page";
         }
-        ;
+
         this.setState({
             files: acceptedFiles.concat(this.state.files),
             errorMessage: errorMessage
@@ -33,7 +33,7 @@ class ImageUpload extends Component {
 
 
     render() {
-        var hasFiles = this.state.files.length > 0;
+        const hasFiles = this.state.files.length > 0;
         return (
             <div>
                 <Dropzone

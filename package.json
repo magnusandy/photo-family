@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^4.9.0",
-    "material-ui": "^1.0.0-beta.30",
-    "material-ui-icons": "^1.0.0-beta.17",
+    "firebase": "^4.11.0",
+    "material-ui": "^1.0.0-beta.38",
+    "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-dropzone": "^4.2.7",
+    "react-dropzone": "^4.2.9",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "typeface-roboto": "0.0.54"
@@ -20,6 +20,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "flow-bin": "^0.65.0"
+    "flow-bin": "^0.68.0"
   }
 }

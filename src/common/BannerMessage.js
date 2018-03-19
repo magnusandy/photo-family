@@ -26,18 +26,20 @@ const style = {
 class BannerMessage extends Component {
 
     static ACCEPTED_TYPES = ['success', 'error'];
-    static errorBanner = (message) =>  {
+    static errorBanner = (message, onCloseAction) =>  {
         return (
         <BannerMessage
             message={message}
             type='error'
+            onCloseAction={onCloseAction}
         /> )
     };
-    static successBanner = (message) =>  {
+    static successBanner = (message, onCloseAction) =>  {
         return (
             <BannerMessage
                 message={message}
                 type='success'
+                onCloseAction={onCloseAction}
             /> )
     };
 
@@ -68,6 +70,7 @@ class BannerMessage extends Component {
     };
 
     handleClose = () => {
+        this.props.onCloseAction();
         this.setState({open: false});
     };
 
@@ -88,7 +91,7 @@ class BannerMessage extends Component {
 BannerMessage.propTypes = {
     message: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-
+    onCloseAction: PropTypes.func.isRequired
 };
 
 

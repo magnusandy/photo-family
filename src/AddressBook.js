@@ -19,8 +19,6 @@ class AddressBook extends Component<Props, State> {
     }
 
     subscribeAction = (message: Message): void => {
-        /* Update React state when message is added at Firebase Database */
-        console.log(message);
         this.setState({messages: [message].concat(this.state.messages)});
     };
 
@@ -34,7 +32,6 @@ class AddressBook extends Component<Props, State> {
 
     addMessage(e: Event): void {
         e.preventDefault();
-        console.log(this.inputEl);
         if (this.inputEl) {
             let messageToSave = this.inputEl.value;
             this.inputEl.value = '';
@@ -43,7 +40,6 @@ class AddressBook extends Component<Props, State> {
     }
 
     render() {
-        console.log(this.state.messages);
         return (
             <form onSubmit={this.addMessage.bind(this)}>
                 <input type="text" ref={el => this.inputEl = el}/>
